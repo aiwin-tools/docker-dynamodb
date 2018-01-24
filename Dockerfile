@@ -9,4 +9,9 @@ RUN wget --quiet --output-document=dynamodb_local.tar.gz https://s3.eu-central-1
     tar xvfz dynamodb_local.tar.gz && \
     rm -v dynamodb_local.tar.gz
 
-CMD ["java", "-Djava.library.path=./DynamoDBLocal_lib", "-jar", "DynamoDBLocal.jar", "-sharedDb"]
+EXPOSE 8000
+
+ENTRYPOINT ["java", "-Djava.library.path=./DynamoDBLocal_lib", "-jar", "DynamoDBLocal.jar", "-sharedDb", "-dbPath", "/var/dynamodb_local"]
+CMD ["-port", "8000"]
+
+VOLUME ["/var/dynamodb_local", "/var/dynamodb_wd"]
